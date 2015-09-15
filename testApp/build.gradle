@@ -1,0 +1,38 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion Integer.parseInt(appCompileSdkVersion)
+    buildToolsVersion appBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt(appMinSdkVersion)
+        targetSdkVersion Integer.parseInt(appTargetSdkVersion)
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+dependencies {
+  compile "com.orange.android.activitylifecycle:android-activity-lifecycle:${project.ext.activityLifecycleVersion}"
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:${project.ext.gradleAndroidPluginVersion}"
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = gradleWrapperVersion
+}
