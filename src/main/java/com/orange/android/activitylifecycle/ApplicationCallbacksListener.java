@@ -11,6 +11,7 @@ package com.orange.android.activitylifecycle;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import lombok.Getter;
 
@@ -21,7 +22,7 @@ import java.util.Map;
 @Getter
 class ApplicationCallbacksListener implements Application.ActivityLifecycleCallbacks {
 
-  private final Map<Class<?>, List<LifecycleListener>> listenerMap = new HashMap<>();
+  private final Map<Context, List<LifecycleListener>> listenerMap = new HashMap<>();
 
   @Override
   public void onActivityCreated(Activity activity, Bundle bundle) {
@@ -56,8 +57,8 @@ class ApplicationCallbacksListener implements Application.ActivityLifecycleCallb
   @Override
   public void onActivityDestroyed(Activity activity) {
     notify(activity.getClass(), LifecycleEvent.ON_DESTROY);
+    listenerMap.remove(activity);
   }
-
 
   private void notify(Class<?> clazz, LifecycleEvent event) {
     notify(clazz, event, null);

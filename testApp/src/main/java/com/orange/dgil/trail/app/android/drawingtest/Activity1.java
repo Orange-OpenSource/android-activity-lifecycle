@@ -12,6 +12,8 @@ package com.orange.dgil.trail.app.android.drawingtest;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.orange.dgil.trail.app.android.drawing.R;
+
 public class Activity1 extends Activity {
 
   @Override
@@ -24,5 +26,4 @@ public class Activity1 extends Activity {
   private void initActivityListener() {
 
   }
-
 }

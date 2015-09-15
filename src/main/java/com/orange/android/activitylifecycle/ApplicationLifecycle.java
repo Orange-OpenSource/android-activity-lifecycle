@@ -21,6 +21,12 @@ import java.util.List;
  * Listens to lifecycle events of all activities of the application, then dispatches to listener
  * clients depending on the activity it is listening to.
  *
+ * Listeners are linked to a context which is provided when we register. We assume that this context
+ * is an instance of the Activity, so that we can unregister the listeners automatically when we receive
+ * the "on destroy" event for this activity.
+ * The ${@link #reset() reset} function is here to clean up everything at start up since we know that under rare
+ * conditions android may not send the "on destroy" event properly.
+ *
  * Example:
  *  - the application has three running activities A1, A2, A3
  *  - two clients: C1A1 which listens for A1 events, C2A2 which listens for A2 events
@@ -37,55 +43,50 @@ public class ApplicationLifecycle {
 
   private boolean initialized;
 
-  public static void init(Application application) {
-    application.registerActivityLifecycleCallbacks(sInstance.callbacksListener);
-    sInstance.initialized = true;
-  }
-
   /**
-   * A client class uses this function to register for receiving lifecycle events of the
-   * provided activity class
-   * @param lifecycleListener client listener which wants to receive lifecycle events for the associated class
-   * @param activityClazz activity for which we want to receive lifecycle events
+   * if not already done, we initialize here the component in order to receive activity lifecycle events.
+   * @param application needed to register through the android system API
    */
-  public static void register(@NonNull LifecycleListener lifecycleListener, @NonNull Class<?> activityClazz) {
-    if (sInstance.initialized) {
-      doRegister(lifecycleListener, activityClazz);
-    } else {
-      throw new IllegalStateException("Component not initialized, please call " + ApplicationLifecycle.class.getSimpleName() + " init class");
+  public static void init(Application application) {
+    if (!sInstance.initialized) {
+      application.registerActivityLifecycleCallbacks(sInstance.callbacksListener);
+      sInstance.initialized = true;
     }
   }
 
-  private static void doRegister(LifecycleListener lifecycleListener, Class<?>activityClazz) {
-    List<LifecycleListener> listeners = sInstance.callbacksListener.getListenerMap().get(activityClazz);
-    if (listeners == null) {
-      listeners = new ArrayList<>();
-      sInstance.callbacksListener.getListenerMap().put(activityClazz, listeners);
-    }
-    listeners.add(lifecycleListener);
+  /**
+   * Can be used to clean up everything at start up since we know that under rare
+   * conditions android may not send the "on destroy" event properly, which would
+   * involve Context memory leaks...
+   */
+  public static void reset() {
+    sInstance.callbacksListener.getListenerMap().clear();
   }
 
   /**
    * A client class uses this function to register for receiving lifecycle events of the
-   * provided activity class.
+   * provided activity context.
    * Here we let you provide a context which is used to match the associated activity, but
    * if your context is not the activity (could be the application context), it will raise an
    * exception.
    * @param lifecycleListener client listener which wants to receive lifecycle events for the associated context
-   * @param context activity context which can be cast to the activity object at your own risk
+   * @param context activity context. NB: not the application context!
    */
   public static void register(@NonNull LifecycleListener lifecycleListener, @NonNull Context context) {
     if (context instanceof Activity) {
-      checkInit(context);
-      register(lifecycleListener, ((Activity) context).getClass());
+      init(((Activity) context).getApplication());
+      doRegister(lifecycleListener, context);
     } else {
-      throw new IllegalArgumentException("The provided context is not an activity context; application context ? Please register with the activity class instead.");
+      throw new IllegalArgumentException("The provided context is not an activity context; application context ? Please register with the activity context instead.");
     }
   }
 
-  private static void checkInit(Context context) {
-    if (!sInstance.initialized) {
-      init(((Activity)context).getApplication());
+  private static void doRegister(LifecycleListener lifecycleListener, Context context) {
+    List<LifecycleListener> listeners = sInstance.callbacksListener.getListenerMap().get(context);
+    if (listeners == null) {
+      listeners = new ArrayList<>();
+      sInstance.callbacksListener.getListenerMap().put(context, listeners);
     }
+    listeners.add(lifecycleListener);
   }
 }
