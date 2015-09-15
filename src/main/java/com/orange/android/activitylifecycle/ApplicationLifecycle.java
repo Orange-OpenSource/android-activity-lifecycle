@@ -74,7 +74,7 @@ public class ApplicationLifecycle {
    */
   public static void register(@NonNull LifecycleListener lifecycleListener, @NonNull Context context) {
     if (context instanceof Activity) {
-      init(((Activity) context).getApplication());
+      init(((Activity)context).getApplication());
       doRegister(lifecycleListener, context);
     } else {
       throw new IllegalArgumentException("The provided context is not an activity context; application context ? Please register with the activity context instead.");

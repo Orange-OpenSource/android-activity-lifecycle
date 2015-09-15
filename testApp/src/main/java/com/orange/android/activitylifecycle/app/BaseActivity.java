@@ -24,15 +24,11 @@ public abstract class BaseActivity extends Activity implements LifecycleListener
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    ApplicationLifecycle.register(this, this);
     super.onCreate(savedInstanceState);
     TestLog.onCreate(this, savedInstanceState);
     setContentView(R.layout.main);
-    ((TextView)findViewById(R.id.text)).setText(getClass().getName());
-    initActivityListener();
-  }
-
-  private void initActivityListener() {
-    ApplicationLifecycle.register(this, this);
+    ((TextView)findViewById(R.id.text)).setText(getClass().getSimpleName());
   }
 
   @Override

@@ -26,46 +26,46 @@ class ApplicationCallbacksListener implements Application.ActivityLifecycleCallb
 
   @Override
   public void onActivityCreated(Activity activity, Bundle bundle) {
-    notify(activity.getClass(), LifecycleEvent.ON_CREATE, bundle);
+    notify(activity, LifecycleEvent.ON_CREATE, bundle);
   }
 
   @Override
   public void onActivityStarted(Activity activity) {
-    notify(activity.getClass(), LifecycleEvent.ON_START);
+    notify(activity, LifecycleEvent.ON_START);
   }
 
   @Override
   public void onActivityResumed(Activity activity) {
-    notify(activity.getClass(), LifecycleEvent.ON_RESUME);
+    notify(activity, LifecycleEvent.ON_RESUME);
   }
 
   @Override
   public void onActivityPaused(Activity activity) {
-    notify(activity.getClass(), LifecycleEvent.ON_PAUSE);
+    notify(activity, LifecycleEvent.ON_PAUSE);
   }
 
   @Override
   public void onActivityStopped(Activity activity) {
-    notify(activity.getClass(), LifecycleEvent.ON_STOP);
+    notify(activity, LifecycleEvent.ON_STOP);
   }
 
   @Override
   public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-    notify(activity.getClass(), LifecycleEvent.ON_SAVE_INSTANCE_STATE, bundle);
+    notify(activity, LifecycleEvent.ON_SAVE_INSTANCE_STATE, bundle);
   }
 
   @Override
   public void onActivityDestroyed(Activity activity) {
-    notify(activity.getClass(), LifecycleEvent.ON_DESTROY);
+    notify(activity, LifecycleEvent.ON_DESTROY);
     listenerMap.remove(activity);
   }
 
-  private void notify(Class<?> clazz, LifecycleEvent event) {
-    notify(clazz, event, null);
+  private void notify(Context context, LifecycleEvent event) {
+    notify(context, event, null);
   }
 
-  private void notify(Class<?> clazz, LifecycleEvent event, Bundle bundle) {
-    List<LifecycleListener> listeners = listenerMap.get(clazz);
+  private void notify(Context context, LifecycleEvent event, Bundle bundle) {
+    List<LifecycleListener> listeners = listenerMap.get(context);
     if (listeners != null) {
       for (LifecycleListener lifecycleListener : listeners) {
         lifecycleListener.onLifecycleEvent(event, bundle);
