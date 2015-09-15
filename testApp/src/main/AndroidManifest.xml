@@ -3,12 +3,15 @@
     package="com.orange.dgil.trail.app.android.drawing" >
 
     <application>
-        <activity
-            android:name="com.orange.dgil.trail.app.android.drawingtest.Activity1" >
+        <activity android:name="com.orange.android.activitylifecycle.app.Activity1" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.orange.android.activitylifecycle.app.Activity2" >
+        </activity>
+        <activity android:name="com.orange.android.activitylifecycle.app.Activity3" >
         </activity>
     </application>
 
