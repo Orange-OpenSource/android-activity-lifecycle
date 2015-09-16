@@ -13,21 +13,15 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.SparseArray;
 import lombok.Getter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-@Getter
+@Getter()
 class ApplicationCallbacksListener implements Application.ActivityLifecycleCallbacks {
 
-  private final Map<Context, List<LifecycleListener>> listenerMap = new HashMap<>();
-
-  @Override
-  public void onActivityCreated(Activity activity, Bundle bundle) {
-    notify(activity, LifecycleEvent.ON_CREATE, bundle);
-  }
+  private final SparseArray<List<Lifecycle>> listeners = new SparseArray<>();
 
   @Override
   public void onActivityStarted(Activity activity) {
@@ -50,26 +44,27 @@ class ApplicationCallbacksListener implements Application.ActivityLifecycleCallb
   }
 
   @Override
-  public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-    notify(activity, LifecycleEvent.ON_SAVE_INSTANCE_STATE, bundle);
-  }
-
-  @Override
   public void onActivityDestroyed(Activity activity) {
     notify(activity, LifecycleEvent.ON_DESTROY);
-    listenerMap.remove(activity);
+    listeners.remove(activity.hashCode());
   }
 
   private void notify(Context context, LifecycleEvent event) {
-    notify(context, event, null);
-  }
-
-  private void notify(Context context, LifecycleEvent event, Bundle bundle) {
-    List<LifecycleListener> listeners = listenerMap.get(context);
-    if (listeners != null) {
-      for (LifecycleListener lifecycleListener : listeners) {
-        lifecycleListener.onLifecycleEvent(event, bundle);
+    List<Lifecycle> contextListeners = listeners.get(context.hashCode());
+    if (contextListeners != null) {
+      for (Lifecycle lifecycle : contextListeners) {
+        lifecycle.onLifecycleEvent(event);
       }
     }
+  }
+
+
+  @Override
+  public void onActivityCreated(Activity activity, Bundle bundle) {
+    // useless
+  }
+  @Override
+  public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+    // useless
   }
 }

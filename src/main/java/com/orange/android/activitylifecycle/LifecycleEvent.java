@@ -9,6 +9,11 @@ package com.orange.android.activitylifecycle;
  * with Orange.
  */
 
+/**
+ * We do not provide ON_CREATE nor ON_SAVE_INSTANCE_STATE events since we consider
+ * that their addition will add extra complexity (bundle), and that anyway these
+ * events will not be used often in real world applications
+ */
 public enum LifecycleEvent {
-  ON_CREATE, ON_START, ON_RESUME, ON_PAUSE, ON_STOP, ON_SAVE_INSTANCE_STATE, ON_DESTROY
+  ON_START, ON_RESUME, ON_PAUSE, ON_STOP, ON_DESTROY
 }

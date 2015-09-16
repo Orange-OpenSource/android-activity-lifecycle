@@ -9,14 +9,10 @@ package com.orange.android.activitylifecycle;
  * with Orange.
  */
 
-import android.os.Bundle;
-
-public interface LifecycleListener {
-
+public interface Lifecycle {
   /**
    * Event for the activity we are listening to
-   * @param lifecycleEvent the event
-   * @param bundle not null for "on create" or "on save instance state" events
+   * @param lifecycleEvent
    */
-  void onLifecycleEvent(LifecycleEvent lifecycleEvent, Bundle bundle);
+  void onLifecycleEvent(LifecycleEvent lifecycleEvent);
 }

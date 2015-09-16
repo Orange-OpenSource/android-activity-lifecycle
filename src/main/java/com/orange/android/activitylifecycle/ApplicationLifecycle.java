@@ -12,14 +12,16 @@ package com.orange.android.activitylifecycle;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.SparseArray;
 import lombok.NonNull;
+import lombok.Synchronized;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Listens to lifecycle events of all activities of the application, then dispatches to listener
- * clients depending on the activity it is listening to.
+ * Listens to lifecycle events of all activities of the application, then dispatches to
+ * ${@link Lifecycle} listener clients depending on the activity it is listening to.
  *
  * Listeners are linked to a context which is provided when we register. We assume that this context
  * is an instance of the Activity, so that we can unregister the listeners automatically when we receive
@@ -31,9 +33,8 @@ import java.util.List;
  *  - the application has three running activities A1, A2, A3
  *  - two clients: C1A1 which listens for A1 events, C2A2 which listens for A2 events
  *  then:
- *  - the ${ApplicationLifecycle} instance will receive all A1/A2/A3 lifecycle events
- *  - the ${ApplicationLifecycle} instance will dispatch A1 events only to C1A1, and A2 events
- *  only to C2A2
+ *  - the ${@link ApplicationLifecycle} instance will receive all A1/A2/A3 lifecycle events
+ *  - the ${@link ApplicationLifecycle} instance will dispatch A1 events only to C1A1, and A2 events only to C2A2
  */
 public class ApplicationLifecycle {
 
@@ -47,7 +48,8 @@ public class ApplicationLifecycle {
    * if not already done, we initialize here the component in order to receive activity lifecycle events.
    * @param application needed to register through the android system API
    */
-  public static void init(Application application) {
+  @Synchronized
+  private static void init(Application application) {
     if (!sInstance.initialized) {
       application.registerActivityLifecycleCallbacks(sInstance.callbacksListener);
       sInstance.initialized = true;
@@ -59,8 +61,9 @@ public class ApplicationLifecycle {
    * conditions android may not send the "on destroy" event properly, which would
    * involve Context memory leaks...
    */
+  @Synchronized
   public static void reset() {
-    sInstance.callbacksListener.getListenerMap().clear();
+    sInstance.callbacksListener.getListeners().clear();
   }
 
   /**
@@ -69,24 +72,26 @@ public class ApplicationLifecycle {
    * Here we let you provide a context which is used to match the associated activity, but
    * if your context is not the activity (could be the application context), it will raise an
    * exception.
-   * @param lifecycleListener client listener which wants to receive lifecycle events for the associated context
+   * @param lifecycle client listener which wants to receive lifecycle events for the associated context
    * @param context activity context. NB: not the application context!
    */
-  public static void register(@NonNull LifecycleListener lifecycleListener, @NonNull Context context) {
+  public static void register(@NonNull Lifecycle lifecycle, @NonNull Context context) {
     if (context instanceof Activity) {
       init(((Activity)context).getApplication());
-      doRegister(lifecycleListener, context);
+      doRegister(lifecycle, context);
     } else {
       throw new IllegalArgumentException("The provided context is not an activity context; application context ? Please register with the activity context instead.");
     }
   }
 
-  private static void doRegister(LifecycleListener lifecycleListener, Context context) {
-    List<LifecycleListener> listeners = sInstance.callbacksListener.getListenerMap().get(context);
-    if (listeners == null) {
-      listeners = new ArrayList<>();
-      sInstance.callbacksListener.getListenerMap().put(context, listeners);
+  @Synchronized
+  private static void doRegister(Lifecycle lifecycle, Context context) {
+    SparseArray<List<Lifecycle>> listeners = sInstance.callbacksListener.getListeners();
+    List<Lifecycle> contextListeners = listeners.get(context.hashCode());
+    if (contextListeners == null) {
+      contextListeners = new ArrayList<>();
+      listeners.put(context.hashCode(), contextListeners);
     }
-    listeners.add(lifecycleListener);
+    contextListeners.add(lifecycle);
   }
 }

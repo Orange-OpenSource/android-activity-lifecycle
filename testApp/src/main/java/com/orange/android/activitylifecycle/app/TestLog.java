@@ -17,8 +17,8 @@ import com.orange.android.activitylifecycle.LifecycleEvent;
 
 public class TestLog {
   
-  public static void logLifecycleEvent(Activity activity, LifecycleEvent lifecycleEvent, Bundle bundle) {
-    Log.i(getTag(activity), "received lifecycleEvent: " + lifecycleEvent + (bundle == null ? "" : " / bundle: " + bundle.toString()));
+  public static void logLifecycleEvent(Activity activity, LifecycleEvent lifecycleEvent) {
+    Log.i(getTag(activity), "received lifecycleEvent: " + lifecycleEvent);
   }
 
   public static void onCreate(Activity activity, Bundle bundle) {

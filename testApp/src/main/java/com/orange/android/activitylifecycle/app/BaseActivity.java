@@ -17,10 +17,9 @@ import android.widget.TextView;
 
 import com.orange.android.activitylifecycle.ApplicationLifecycle;
 import com.orange.android.activitylifecycle.LifecycleEvent;
-import com.orange.android.activitylifecycle.LifecycleListener;
-import com.orange.dgil.trail.app.android.drawing.R;
+import com.orange.android.activitylifecycle.Lifecycle;
 
-public abstract class BaseActivity extends Activity implements LifecycleListener {
+public abstract class BaseActivity extends Activity implements Lifecycle {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +31,8 @@ public abstract class BaseActivity extends Activity implements LifecycleListener
   }
 
   @Override
-  public void onLifecycleEvent(LifecycleEvent lifecycleEvent, Bundle bundle) {
-    TestLog.logLifecycleEvent(this, lifecycleEvent, bundle);
+  public void onLifecycleEvent(LifecycleEvent lifecycleEvent) {
+    TestLog.logLifecycleEvent(this, lifecycleEvent);
   }
 
   @Override
