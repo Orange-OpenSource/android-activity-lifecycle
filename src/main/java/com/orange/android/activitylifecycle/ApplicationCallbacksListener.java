@@ -62,9 +62,9 @@ class ApplicationCallbacksListener implements Application.ActivityLifecycleCallb
   }
 
   private void notify(Context context, LifecycleEvent event) {
+    debug.showEvent(context, event.toString());
     List<Lifecycle> contextListeners = listeners.get(context.hashCode());
     if (contextListeners != null) {
-      debug.showEvent(context.hashCode(), event.toString());
       for (Lifecycle lifecycle : contextListeners) {
         lifecycle.onLifecycleEvent(event);
       }
@@ -73,10 +73,10 @@ class ApplicationCallbacksListener implements Application.ActivityLifecycleCallb
 
   @Override
   public void onActivityCreated(Activity activity, Bundle bundle) {
-    debug.showEvent(activity.hashCode(), String.format("ON_CREATE%s", bundle == null ? "" : " / Bundle: " + bundle.toString()));
+    debug.showEvent(activity, String.format("ON_CREATE%s", bundle == null ? "" : " / Bundle: " + bundle.toString()));
   }
   @Override
   public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-    debug.showEvent(activity.hashCode(), String.format("ON_SAVE_INSTANCE_STATE%s", bundle == null ? "" : " / Bundle: " + bundle.toString()));
+    debug.showEvent(activity, String.format("ON_SAVE_INSTANCE_STATE%s", bundle == null ? "" : " / Bundle: " + bundle.toString()));
   }
 }

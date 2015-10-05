@@ -26,15 +26,15 @@ class Debug {
   @Setter
   private boolean enabled;
 
-  void showListeners() {
-    for (int i = 0; i < listeners.size(); i++) {
-      showListenersFor(listeners.keyAt(i));
+  void showEvent(Context context, String message) {
+    if (enabled) {
+      Log.i(DEBUG_TAG, String.format("%s: %s", context, message));
     }
   }
 
-  void showEvent(int contextHashCode, String message) {
-    if (enabled) {
-      Log.i(DEBUG_TAG, String.format("%s: %s", activitiesName.get(contextHashCode), message));
+  void showListeners() {
+    for (int i = 0; i < listeners.size(); i++) {
+      showListenersFor(listeners.keyAt(i));
     }
   }
 
@@ -43,7 +43,7 @@ class Debug {
     for (Lifecycle lifecycle : listeners.get(contextHashCode)) {
       stringBuilder.append(String.format(" %s", lifecycle.getClass().getName()));
     }
-    Log.i(DEBUG_TAG, String.format("%s listeners: %s", activitiesName.get(contextHashCode), stringBuilder));
+    Log.i(DEBUG_TAG, String.format("%s (%x) listeners: %s", activitiesName.get(contextHashCode), contextHashCode, stringBuilder));
   }
 
   void register(Context context) {
