@@ -12,7 +12,7 @@ package com.orange.android.activitylifecycle;
 public interface Lifecycle {
   /**
    * Event for the activity we are listening to
-   * @param lifecycleEvent
+   * @param lifecycleEvent event
    */
   void onLifecycleEvent(LifecycleEvent lifecycleEvent);
 }

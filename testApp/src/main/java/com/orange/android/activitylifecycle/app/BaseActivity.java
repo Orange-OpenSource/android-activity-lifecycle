@@ -23,6 +23,7 @@ public abstract class BaseActivity extends Activity implements Lifecycle {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    ApplicationLifecycle.setDebugEnabled(true);
     ApplicationLifecycle.register(this, this);
     super.onCreate(savedInstanceState);
     TestLog.onCreate(this, savedInstanceState);
@@ -57,6 +58,7 @@ public abstract class BaseActivity extends Activity implements Lifecycle {
   protected void onResume() {
     super.onResume();
     TestLog.onResume(this);
+    ApplicationLifecycle.showListeners();
   }
 
   @Override

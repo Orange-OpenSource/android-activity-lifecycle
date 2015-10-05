@@ -16,12 +16,24 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter()
 class ApplicationCallbacksListener implements Application.ActivityLifecycleCallbacks {
 
   private final SparseArray<List<Lifecycle>> listeners = new SparseArray<>();
+  private final Debug debug = new Debug(listeners);
+
+  void register(Lifecycle lifecycle, Context context) {
+    List<Lifecycle> contextListeners = listeners.get(context.hashCode());
+    if (contextListeners == null) {
+      contextListeners = new ArrayList<>();
+      listeners.put(context.hashCode(), contextListeners);
+      debug.register(context);
+    }
+    contextListeners.add(lifecycle);
+  }
 
   @Override
   public void onActivityStarted(Activity activity) {
@@ -52,19 +64,19 @@ class ApplicationCallbacksListener implements Application.ActivityLifecycleCallb
   private void notify(Context context, LifecycleEvent event) {
     List<Lifecycle> contextListeners = listeners.get(context.hashCode());
     if (contextListeners != null) {
+      debug.showEvent(context.hashCode(), event.toString());
       for (Lifecycle lifecycle : contextListeners) {
         lifecycle.onLifecycleEvent(event);
       }
     }
   }
 
-
   @Override
   public void onActivityCreated(Activity activity, Bundle bundle) {
-    // useless
+    debug.showEvent(activity.hashCode(), String.format("ON_CREATE%s", bundle == null ? "" : " / Bundle: " + bundle.toString()));
   }
   @Override
   public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-    // useless
+    debug.showEvent(activity.hashCode(), String.format("ON_SAVE_INSTANCE_STATE%s", bundle == null ? "" : " / Bundle: " + bundle.toString()));
   }
 }

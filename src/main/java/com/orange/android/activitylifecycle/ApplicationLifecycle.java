@@ -12,12 +12,8 @@ package com.orange.android.activitylifecycle;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.util.SparseArray;
 import lombok.NonNull;
 import lombok.Synchronized;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Listens to lifecycle events of all activities of the application, then dispatches to
@@ -57,16 +53,6 @@ public class ApplicationLifecycle {
   }
 
   /**
-   * Can be used to clean up everything at start up since we know that under rare
-   * conditions android may not send the "on destroy" event properly, which would
-   * involve Context memory leaks...
-   */
-  @Synchronized
-  public static void reset() {
-    sInstance.callbacksListener.getListeners().clear();
-  }
-
-  /**
    * A client class uses this function to register for receiving lifecycle events of the
    * provided activity context.
    * Here we let you provide a context which is used to match the associated activity, but
@@ -86,12 +72,29 @@ public class ApplicationLifecycle {
 
   @Synchronized
   private static void doRegister(Lifecycle lifecycle, Context context) {
-    SparseArray<List<Lifecycle>> listeners = sInstance.callbacksListener.getListeners();
-    List<Lifecycle> contextListeners = listeners.get(context.hashCode());
-    if (contextListeners == null) {
-      contextListeners = new ArrayList<>();
-      listeners.put(context.hashCode(), contextListeners);
-    }
-    contextListeners.add(lifecycle);
+    sInstance.callbacksListener.register(lifecycle, context);
+  }
+
+  /**
+   * Can be used to clean up everything at start up since we know that under rare
+   * conditions android may not send the "on destroy" event properly, which would
+   * involve Context memory leaks...
+   */
+  @Synchronized
+  public static void reset() {
+    sInstance.callbacksListener.getListeners().clear();
+  }
+
+  /**
+   * If debug mode is set, each activity lifecycle event will appear in the log
+   * @param enable true to enable log
+   */
+  public static void setDebugEnabled(boolean enable) {
+    sInstance.callbacksListener.getDebug().setEnabled(enable);
+  }
+
+  /** Print in the log listeners of recorded activities */
+  public static void showListeners() {
+    sInstance.callbacksListener.getDebug().showListeners();
   }
 }
