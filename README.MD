@@ -34,7 +34,7 @@ So here there is some room for improvment:
 - in our activity, we have to override the ```onDestroy``` function only for this purpose as well
 - in our object we rely on ```MyActivity``` to provide the "on destroy" event
 
-It would be great if we could break this strong link between these two classes and that is the purpose of this library.
+It would be great if we could break the strong link between these classes and that is the purpose of this library.
 
 With the "android activity lifecycle" library, you can write:
 ```java
@@ -71,9 +71,12 @@ So here we can see that:
 We have reduce coupling between these objects.
 
 #Build & use
-It is a maven build, so basically ```mvn install</code> should do the job. It will install the library in your local repository. You can also retrieve the jar file under the target directory (after the maven build).
+It is a maven build, so basically ```mvn install``` should do the job. It will install the library in your local repository. You can also retrieve the jar file under the target directory (after the maven build).
 
 The library is published on maven central to ease developers' life. So to use the library in a maven build:
+
+WORK IN PROGRESS...
+
 <pre><code>&lt;dependency&gt;
   &lt;groupId&gt;&lt;/groupId&gt;
   &lt;artifactId&gt;&lt;/artifactId&gt;
@@ -83,13 +86,16 @@ The library is published on maven central to ease developers' life. So to use th
 </pre></code>
 
 In a gradle build:
+
+WORK IN PROGRESS...
+
 <pre><code>dependencies {
   compile "::"
 }
 </pre></code>
 
 #License
-Apache License Version 2.0
+[Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
 #Authors
 Christophe Maldivi & Stephane Coutant
 
