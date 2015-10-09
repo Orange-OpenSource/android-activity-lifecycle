@@ -9,6 +9,7 @@
 
     <name>Android Activity Lifecycle</name>
     <description>Provide to any class an android activity lifecycle listener</description>
+    <url>https://github.com/Orange-OpenSource/android-activity-lifecycle</url>
 
     <properties>
         <guava.version>17.0</guava.version>
@@ -165,5 +166,39 @@
             </build>
         </profile>
     </profiles>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <licenses>
+        <license>
+            <name>Apache License v2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Christophe Maldivi</name>
+            <email>christophe.maldivi@orange.com</email>
+            <organization>Orange</organization>
+            <organizationUrl>https://github.com/Orange-OpenSource</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:Orange-OpenSource/android-activity-lifecycle.git</connection>
+        <developerConnection>scm:git:git@github.com:Orange-OpenSource/android-activity-lifecycle.git</developerConnection>
+        <url>git@github.com:Orange-OpenSource/android-activity-lifecycle.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
 </project>
