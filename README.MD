@@ -1,4 +1,4 @@
-#Lifecycle
+#Android Lifecycle
 If you are not familiar to the lifecycle concept in android activities, please have a look [here](https://developer.android.com/training/basics/activity-lifecycle/index.html]).
 
 When you develop a real world application, with a lot of classes, there is a good chance that you need to do some stuff when activities' lifecycle events occur. For instance to release some resources or unregister from services when the "on destroy" event occurs.
@@ -69,6 +69,12 @@ So here we can see that:
  - the object which needs to react to activity lifecyle events can handle its business by its own
  
 We have reduce coupling between these objects.
+
+#TODO
+- publish lib on maven central; waiting for sonatype feedback
+- describe the debug api
+- describe the test app
+- extend to service/broadcast receiver/content provider specific lifecyle behaviour
 
 #Build & use
 It is a maven build, so basically ```mvn install``` should do the job. It will install the library in your local repository. You can also retrieve the jar file under the target directory (after the maven build).
