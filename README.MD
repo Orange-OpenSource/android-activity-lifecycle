@@ -70,38 +70,34 @@ So here we can see that:
  
 We have reduce coupling between these objects.
 
-#TODO
-- publish lib on maven central; waiting for sonatype feedback
-- describe the debug api
-- describe the test app
-- extend to service/broadcast receiver/content provider specific lifecyle behaviour
-
 #Build & use
 It is a maven build, so basically ```mvn install``` should do the job. It will install the library in your local repository. You can also retrieve the jar file under the target directory (after the maven build).
 
 The library is published on maven central to ease developers' life. So to use the library in a maven build:
 
-WORK IN PROGRESS...
-
 <pre><code>&lt;dependency&gt;
-  &lt;groupId&gt;&lt;/groupId&gt;
-  &lt;artifactId&gt;&lt;/artifactId&gt;
-  &lt;version&gt;&lt;/version&gt;
+  &lt;groupId&gt;com.orange.android.activitylifecycle&lt;/groupId&gt;
+  &lt;artifactId&gt;android-activity-lifecycle&lt;/artifactId&gt;
+  &lt;version&gt;0.3&lt;/version&gt;
   &lt;scope&gt;compile&lt;/scope&gt;
 &lt;/dependency&gt;
 </pre></code>
 
 In a gradle build:
 
-WORK IN PROGRESS...
-
 <pre><code>dependencies {
-  compile "::"
+  compile "com.orange.android.activitylifecycle:android-activity-lifecycle:0.3"
 }
 </pre></code>
 
+#TODO
+- describe the debug api
+- describe the test app
+- extend to service/broadcast receiver/content provider specific lifecyle behaviour
+
 #License
 [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 #Authors
 Christophe Maldivi & Stephane Coutant
 
