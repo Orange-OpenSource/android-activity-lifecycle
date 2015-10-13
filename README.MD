@@ -95,6 +95,9 @@ In a gradle build:
 - describe the test app
 - extend to service/broadcast receiver/content provider specific lifecyle behaviour
 
+#Travis build
+See [job](https://travis-ci.org/Orange-OpenSource/android-activity-lifecycle)
+
 #License
 [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
 
