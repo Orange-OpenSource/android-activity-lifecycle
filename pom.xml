@@ -4,7 +4,7 @@
 
     <groupId>com.orange.android.activitylifecycle</groupId>
     <artifactId>android-activity-lifecycle</artifactId>
-    <version>0.3</version>
+    <version>0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Android Activity Lifecycle</name>
@@ -198,7 +198,7 @@
         <connection>scm:git:git@github.com:Orange-OpenSource/android-activity-lifecycle.git</connection>
         <developerConnection>scm:git:git@github.com:Orange-OpenSource/android-activity-lifecycle.git</developerConnection>
         <url>git@github.com:Orange-OpenSource/android-activity-lifecycle.git</url>
-        <tag>android-activity-lifecycle-0.3</tag>
+        <tag>android-activity-lifecycle-0.2</tag>
     </scm>
 
 </project>
