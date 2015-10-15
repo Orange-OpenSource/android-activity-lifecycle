@@ -99,6 +99,8 @@ In a gradle build:
 See [job](https://travis-ci.org/Orange-OpenSource/android-activity-lifecycle)
 
 #License
+Copyright (C) 2015 Orange
+
 [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 #Authors
